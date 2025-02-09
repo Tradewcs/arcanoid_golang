@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	screenWidth  = 800
+	screenWidth  = 745
 	screenHeight = 600
 )
 
@@ -14,10 +14,12 @@ func main() {
 	rl.SetTargetFPS(60)
 
 	game := NewGame()
+	bg := rl.LoadTexture("assets/background.png")
+	defer rl.UnloadTexture(bg)
 
 	for !rl.WindowShouldClose() {
 		game.Update()
-		game.Draw()
+		game.Draw(bg)
 	}
 
 	rl.CloseWindow()

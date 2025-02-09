@@ -10,15 +10,13 @@ type Ball struct {
 
 func NewBall() Ball {
 	return Ball{
-		Position: rl.Vector2{X: screenWidth / 2 - 50, Y: screenHeight - 100},
+		Position: rl.Vector2{X: 400, Y: 300},
 		Radius:   5,
 		Speed:    rl.Vector2{X: 4, Y: -4},
 	}
 }
 
-func (b *Ball) Update(paddle *Paddle, bricks *[]Brick) {
-
-	
+func (b *Ball) Update(paddle *Paddle, bricks *[]Brick, game *Game) {
 	b.Position.X += b.Speed.X
 	b.Position.Y += b.Speed.Y
 
@@ -38,14 +36,23 @@ func (b *Ball) Update(paddle *Paddle, bricks *[]Brick) {
 		if !brick.Destroyed && b.Position.X >= brick.Position.X && b.Position.X <= brick.Position.X+brick.Width &&
 			b.Position.Y >= brick.Position.Y && b.Position.Y <= brick.Position.Y+brick.Height {
 			b.Speed.Y = -b.Speed.Y
-			brick.Destroyed = true
+			brick.Hit()
+			game.Points += 10
+			game.BricksHit++
+
+			if game.BricksHit == len(*bricks) {
+				game.Level++
+				game.GenerateLevel()
+			}
 		}
 	}
 
 	if b.Position.Y > screenHeight {
-		*b = NewBall()
+		game.GenerateLevel()
 	}
 }
+
+
 
 func (b *Ball) Draw() {
 	rl.DrawCircleV(b.Position, b.Radius, rl.White)

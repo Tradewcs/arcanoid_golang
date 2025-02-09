@@ -2,7 +2,6 @@ package main
 
 import rl "github.com/gen2brain/raylib-go/raylib"
 
-
 type Paddle struct {
 	Position rl.Vector2
 	Width    float32
@@ -11,10 +10,9 @@ type Paddle struct {
 }
 
 func NewPaddle() Paddle {
-	pWidth := 100
 	return Paddle{
-		Position: rl.Vector2{X: float32(pWidth), Y: screenHeight - 50},
-		Width: float32(pWidth),
+		Position: rl.Vector2{X: 350, Y: 550},
+		Width:    100,
 		Height:   10,
 		Speed:    5,
 	}
